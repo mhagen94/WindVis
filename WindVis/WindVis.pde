@@ -53,12 +53,28 @@ void drawMouseLine() {
 // Reads a bilinearly-interpolated value at the given a and b
 // coordinates.  Both a and b should be in data coordinates.
 float readInterp(Table tab, float a, float b) {
-  int x = int(a);
-  int y = int(b);
-  // TODO: do bilinear interpolation
-  // Something like getting floor and ceiling x and y int values to read from table
-  // Then doing an interpolation using the decimal place values from a and b
-  return readRaw(tab, x, y);
+  int floorX = floor(a);
+  int ceilX = ceil(a);
+  int floorY = floor(b);
+  int ceilY = ceil(b);
+  
+  float xRatio1 = a - floorX;
+  float xRatio2 = 1 - xRatio1;
+  float yRatio1 = b - floorY;
+  float yRatio2 = 1 - yRatio1;
+  
+  float upperLeft  = readRaw(tab, floorX, floorY);
+  float upperRight = readRaw(tab, ceilX, floorY);
+  float lowerLeft  = readRaw(tab, floorX, ceilY);
+  float lowerRight = readRaw(tab, ceilX, ceilY);
+  
+  float upperInterp = (upperLeft * xRatio2) + (upperRight * xRatio1);
+  float lowerInterp = (lowerLeft * xRatio2) + (lowerRight * xRatio1);
+  
+  float verticalInterp = (upperInterp * yRatio2) + (lowerInterp * yRatio1);
+  
+  //return readRaw(tab, x, y);
+  return verticalInterp;
 }
 
 // Reads a raw value 
