@@ -17,12 +17,18 @@ Table vwnd;
 // map and pick out the subset that corresponds to the range from
 // 135W to 65W, and from 55N to 25N
 PImage img;
+ArrayList<Particle> particles;
 
 void setup() {
   // If this doesn't work on your computer, you can remove the 'P3D'
   // parameter.  On many computers, having P3D should make it run faster
   size(700, 400, P3D);
   pixelDensity(displayDensity());
+  
+  int numParticles = 1000;
+  int lifeTimeMax = 100;
+  
+  
   
   img = loadImage("background.png");
   uwnd = loadTable("uwnd.csv");
@@ -34,6 +40,9 @@ void draw() {
   background(255);
   image(img, 0, 0, width, height);
   drawMouseLine();
+  
+  beginShape(POINTS);
+  
 }
 
 void drawMouseLine() {
