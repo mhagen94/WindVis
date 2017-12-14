@@ -56,6 +56,8 @@ float readInterp(Table tab, float a, float b) {
   int x = int(a);
   int y = int(b);
   // TODO: do bilinear interpolation
+  // Something like getting floor and ceiling x and y int values to read from table
+  // Then doing an interpolation using the decimal place values from a and b
   return readRaw(tab, x, y);
 }
 
