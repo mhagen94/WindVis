@@ -24,10 +24,17 @@ void setup() {
   // parameter.  On many computers, having P3D should make it run faster
   size(700, 400, P3D);
   pixelDensity(displayDensity());
+  particles = new ArrayList<Particle>();
+  int numParticles = 3000;
+  int lifeTimeMax = 150;
+  int lifeTimeMin = 50;
   
-  int numParticles = 1000;
-  int lifeTimeMax = 100;
-  
+  for (int i = 0; i < numParticles; i++){
+    int randLife = (int) random(lifeTimeMin, lifeTimeMax);
+    int randXPos = (int) random(0, width);
+    int randYPos = (int) random(0, height);
+    particles.add(new Particle(randLife, width, height, randXPos, randYPos));
+  }
   
   
   img = loadImage("background.png");
@@ -40,9 +47,24 @@ void draw() {
   background(255);
   image(img, 0, 0, width, height);
   drawMouseLine();
-  
+  Particle currentParticle;
   beginShape(POINTS);
-  
+  for (int i = 0; i < particles.size(); i++){
+    currentParticle = particles.get(i);
+    currentParticle.checkLife();
+    int currentX = currentParticle.getXPos();
+    int currentY = currentParticle.getYPos();
+    
+    float dx = readInterp(uwnd, currentX, currentY);
+    float dy = -readInterp(vwnd, currentX, currentY);
+    
+    currentParticle.adjustX(dx);
+    currentParticle.adjustY(dy);
+    currentParticle.decrementLife();
+    
+    vertex(currentParticle.getXPos(), currentParticle.getYPos());
+  }
+  endShape();
 }
 
 void drawMouseLine() {
