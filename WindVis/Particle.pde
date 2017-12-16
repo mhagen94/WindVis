@@ -32,7 +32,7 @@ class Particle {
 
   void checkLife(){
      
-     if (LifeTime == 0){
+     if (LifeTime == 0 || xPos <=1 || yPos <=1 || xPos >= MaxWidth - 1 || yPos >= MaxHeight - 1){
        LifeTime = MaxLife;
        xPos = (int) random(0, MaxWidth);
        yPos = (int) random(0, MaxHeight);

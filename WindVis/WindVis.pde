@@ -26,14 +26,14 @@ void setup() {
   pixelDensity(displayDensity());
   particles = new ArrayList<Particle>();
   int numParticles = 3000;
-  int lifeTimeMax = 150;
+  int lifeTimeMax = 250;
   int lifeTimeMin = 50;
   
   for (int i = 0; i < numParticles; i++){
     int randLife = (int) random(lifeTimeMin, lifeTimeMax);
     int randXPos = (int) random(0, width);
     int randYPos = (int) random(0, height);
-    particles.add(new Particle(randLife, width, height, randXPos, randYPos));
+    particles.add(new Particle(randLife, 700, 400, randXPos, randYPos));
   }
   
   
@@ -48,6 +48,7 @@ void draw() {
   image(img, 0, 0, width, height);
   drawMouseLine();
   Particle currentParticle;
+  stroke(0,0,0);
   beginShape(POINTS);
   for (int i = 0; i < particles.size(); i++){
     currentParticle = particles.get(i);
@@ -57,7 +58,9 @@ void draw() {
     
     float dx = readInterp(uwnd, currentX, currentY);
     float dy = -readInterp(vwnd, currentX, currentY);
-    
+    if (i==0){
+      //print("(", currentX,",",currentY, ") -> ");
+    }
     currentParticle.adjustX(dx);
     currentParticle.adjustY(dy);
     currentParticle.decrementLife();
@@ -78,6 +81,7 @@ void drawMouseLine() {
   // does.
   float dx = readInterp(uwnd, a, b) * 10;
   float dy = -readInterp(vwnd, a, b) * 10;
+  stroke(255, 0, 0);
   line(mouseX, mouseY, mouseX + dx, mouseY + dy);
 }
 
@@ -104,7 +108,7 @@ float readInterp(Table tab, float a, float b) {
   
   float verticalInterp = (upperInterp * yRatio2) + (lowerInterp * yRatio1);
   
-  //return readRaw(tab, x, y);
+  //readRaw(tab, (int) a, (int) b);
   return verticalInterp;
 }
 
