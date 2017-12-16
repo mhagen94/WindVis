@@ -58,6 +58,7 @@ void draw() {
     
     float dx = readInterp(uwnd, currentX, currentY);
     float dy = readInterp(vwnd, currentX, currentY);
+    
     if (i==0){
       //print("(", currentX,",",currentY, ") -> ");
     }

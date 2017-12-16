@@ -5,10 +5,10 @@ class Particle {
  int MaxLife;
  int MaxWidth;
  int MaxHeight;
- int xPos;
- int yPos;
+ float xPos;
+ float yPos;
  
- Particle(int tempLife, int tempWidth, int tempHeight, int tempX, int tempY){
+ Particle(int tempLife, int tempWidth, int tempHeight, float tempX, float tempY){
     LifeTime = tempLife;
     MaxLife = tempLife;
     MaxWidth = tempWidth;
@@ -18,11 +18,11 @@ class Particle {
     
  }
  
- int getXPos(){
+ float getXPos(){
   return xPos; 
  }
  
- int getYPos(){
+ float getYPos(){
   return yPos; 
  }
 
