@@ -53,11 +53,11 @@ void draw() {
   for (int i = 0; i < particles.size(); i++){
     currentParticle = particles.get(i);
     currentParticle.checkLife();
-    int currentX = currentParticle.getXPos();
-    int currentY = currentParticle.getYPos();
+    int currentX = currentParticle.getXPos() * uwnd.getColumnCount() / width;
+    int currentY = currentParticle.getYPos() * uwnd.getRowCount() / height;
     
-    float dx = readInterp(uwnd, currentX, currentY);
-    float dy = -readInterp(vwnd, currentX, currentY);
+    float dx = readInterp(uwnd, currentX, currentY) * uwnd.getColumnCount() / width;
+    float dy = -readInterp(vwnd, currentX, currentY) * uwnd.getRowCount() / height;
     if (i==0){
       //print("(", currentX,",",currentY, ") -> ");
     }
