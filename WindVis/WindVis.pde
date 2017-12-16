@@ -25,15 +25,15 @@ void setup() {
   size(700, 400, P3D);
   pixelDensity(displayDensity());
   particles = new ArrayList<Particle>();
-  int numParticles = 3000;
-  int lifeTimeMax = 250;
+  int numParticles = 5000;
+  int lifeTimeMax = 200;
   int lifeTimeMin = 50;
   
   for (int i = 0; i < numParticles; i++){
     int randLife = (int) random(lifeTimeMin, lifeTimeMax);
     int randXPos = (int) random(0, width);
     int randYPos = (int) random(0, height);
-    particles.add(new Particle(randLife, 700, 400, randXPos, randYPos));
+    particles.add(new Particle(randLife, width, height, randXPos, randYPos));
   }
   
   
@@ -53,11 +53,11 @@ void draw() {
   for (int i = 0; i < particles.size(); i++){
     currentParticle = particles.get(i);
     currentParticle.checkLife();
-    int currentX = currentParticle.getXPos() * uwnd.getColumnCount() / width;
-    int currentY = currentParticle.getYPos() * uwnd.getRowCount() / height;
+    float currentX = ((float) currentParticle.getXPos()/width) * uwnd.getColumnCount() ;
+    float currentY = ((float) currentParticle.getYPos()/height) * vwnd.getRowCount() ;
     
-    float dx = readInterp(uwnd, currentX, currentY) * uwnd.getColumnCount() / width;
-    float dy = -readInterp(vwnd, currentX, currentY) * uwnd.getRowCount() / height;
+    float dx = readInterp(uwnd, currentX, currentY);
+    float dy = readInterp(vwnd, currentX, currentY);
     if (i==0){
       //print("(", currentX,",",currentY, ") -> ");
     }
@@ -74,7 +74,7 @@ void drawMouseLine() {
   // Convert from pixel coordinates into coordinates
   // corresponding to the data.
   float a = mouseX * uwnd.getColumnCount() / width;
-  float b = mouseY * uwnd.getRowCount() / height;
+  float b = mouseY * vwnd.getRowCount() / height;
   
   // Since a positive 'v' value indicates north, we need to
   // negate it so that it works in the same coordinates as Processing
@@ -88,10 +88,13 @@ void drawMouseLine() {
 // Reads a bilinearly-interpolated value at the given a and b
 // coordinates.  Both a and b should be in data coordinates.
 float readInterp(Table tab, float a, float b) {
-  int floorX = floor(a);
-  int ceilX = ceil(a);
-  int floorY = floor(b);
-  int ceilY = ceil(b);
+  float x = a;
+  float y = b;
+  
+  int floorX = floor(x);
+  int ceilX = ceil(x);
+  int floorY = floor(y);
+  int ceilY = ceil(y);
   
   float xRatio1 = a - floorX;
   float xRatio2 = 1 - xRatio1;
